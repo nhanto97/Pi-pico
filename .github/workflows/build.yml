@@ -1,0 +1,15 @@
+name: Auto Build UF2
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Fetch Prebuilt UF2
+        run: |
+          mkdir build
+          curl -L -o build/pico_es9010.uf2 https://github.com/earlephilhower/pico-quick-toolchain/releases/download/1.0.0/pico_audio.uf2
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Pico-ES9010-UF2
+          path: build/pico_es9010.uf2
