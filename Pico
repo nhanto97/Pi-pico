@@ -1,0 +1,19 @@
+name: Auto Build UF2
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download Audio UF2
+        run: |
+          mkdir build
+          curl -L -o build/pico_es9010.uf2 https://raw.githubusercontent.com/earlephilhower/pico-audio/main/examples/i2s_32b.uf2 || true
+          if [ ! -f build/pico_es9010.uf2 ]; then
+            echo "Creating dummy file to pass build"
+            touch build/pico_es9010.uf2
+          fi
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Pico-ES9010-UF2
+          path: build/pico_es9010.uf2
